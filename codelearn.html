@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CodeLearn</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#090C16;--p:#0F1326;--p2:#141934;--b:#1E2543;--t:#E8EBF7;--m:#8C94B0;--v:#8B6CFF;--s:#FF9C88;--g:#2FD07C}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--t);font:14px/1.55 Inter,system-ui,sans-serif}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--v);outline-offset:2px}
+.top{display:flex;align-items:center;gap:20px;padding:14px 26px;border-bottom:1px solid var(--b)}
+.logo{display:flex;align-items:center;gap:12px;min-width:250px}
+.logo b{font-size:20px;display:block;line-height:1.1}.logo small{color:var(--m);font-size:12px}
+.logo svg{color:var(--v)}
+.search{flex:1;max-width:520px;margin:0 auto;background:var(--p);border:1px solid var(--b);border-radius:999px;padding:10px 18px;color:var(--m);display:flex;justify-content:space-between}
+.user{display:flex;align-items:center;gap:10px;margin-left:auto}
+.av{width:36px;height:36px;border-radius:50%;background:#59607A;display:grid;place-items:center;font-weight:600;font-size:13px}
+.app{display:grid;grid-template-columns:230px minmax(0,1fr) 320px;gap:18px;padding:18px 20px}
+.card{background:var(--p);border:1px solid var(--b);border-radius:14px;padding:18px}
+.card h3{margin:0 0 12px;font-size:15px}
+.side{display:flex;flex-direction:column;gap:14px}
+.nav{display:flex;flex-direction:column;gap:2px}
+.nav a{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:9px;color:#C9CEE3;text-decoration:none}
+.nav a.on{background:var(--p2);color:#fff}
+.quote{height:150px;border-radius:14px;background:linear-gradient(160deg,#241A3E,#6A3560 70%,#B2575A);padding:22px 18px;display:flex;align-items:center;color:#E6DDF0;font-size:14px}
+.ring{width:64px;height:64px;border-radius:50%;background:conic-gradient(var(--s) 0 42%,#262D4D 0);display:grid;place-items:center;flex:none}
+.ring span{width:50px;height:50px;border-radius:50%;background:var(--p);display:grid;place-items:center;font-weight:700}
+.bar{height:6px;border-radius:9px;background:#262D4D;overflow:hidden}.bar i{display:block;height:100%;width:42%;background:linear-gradient(90deg,#F07BA8,var(--s));border-radius:9px}
+.row{display:flex;align-items:center;gap:14px}
+.btn{border:1px solid var(--b);background:transparent;padding:9px 16px;border-radius:9px}
+.btn.v{background:var(--v);border-color:var(--v);color:#fff;font-weight:600}
+.btn.s{background:var(--s);border-color:var(--s);color:#2A1210;font-weight:700;padding:11px 20px}
+.main{display:flex;flex-direction:column;gap:18px;min-width:0}
+.hero{position:relative;overflow:hidden;border-radius:14px;padding:30px;min-height:250px;background:linear-gradient(120deg,#2B1B40,#7A3B5E 55%,#C2605A)}
+.hero::after{content:"";position:absolute;inset:auto 0 0;height:45%;background:#150E2B;opacity:.6;clip-path:polygon(0 100%,0 55%,12% 40%,22% 58%,34% 22%,46% 55%,58% 35%,70% 60%,82% 38%,100% 62%,100% 100%)}
+.hero>*{position:relative;z-index:1}
+.pill{display:inline-block;border:1px solid #8B6CFF;color:#CDBEFF;background:#2A1F55aa;padding:3px 12px;border-radius:999px;font-size:12px}
+.hero h1{font-size:40px;margin:14px 0 8px;letter-spacing:-.02em}
+.hero p{max-width:430px;margin:0 0 22px;color:#E9E1F2}
+.badge{position:absolute!important;top:30px;right:30px;width:92px;height:92px;border-radius:22px;background:#17142C;display:grid;place-items:center;font-size:30px;font-weight:800}
+.lvl{position:absolute!important;right:30px;bottom:24px;background:#1B1735cc;border:1px solid #ffffff22;border-radius:12px;padding:12px 16px}
+#courses{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}#courses[hidden]{display:none}
+#courses button{border:1px solid #ffffff44;background:#00000033;padding:6px 14px;border-radius:999px}
+#courses button.on{background:var(--v);border-color:var(--v)}
+.lesson{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:20px}
+.back{color:var(--m);font-size:13px}
+.lesson h2{margin:6px 0 2px;font-size:20px}.lesson .sub{color:var(--m);margin:0 0 14px}
+.tabs{display:flex;gap:6px;border-bottom:1px solid var(--b);margin-bottom:14px}
+.tabs button{background:none;border:0;padding:9px 16px;color:var(--m);border-bottom:2px solid transparent}
+.tabs button.on{color:#fff;background:var(--p2);border-radius:8px 8px 0 0;border-bottom-color:var(--v)}
+#tc h3{font-size:16px;margin:14px 0 6px}#tc p{color:#B9C0D8;margin:0 0 10px}
+.ex{border:1px solid var(--b);border-radius:10px;padding:10px 14px;margin:10px 0}.ex small{color:var(--m)}
+pre{font:13px/1.7 'JetBrains Mono',monospace;margin:0}
+i{font-style:normal}.k{color:#C792EA}.s2,.s{color:#E5C07B}.n{color:#FF7B9C}.f{color:#7CC4FF}.c{color:#6B7394}
+.ed{background:#0B0F20;border:1px solid var(--b);border-radius:12px;overflow:hidden;display:flex;flex-direction:column}
+.edh{display:flex;align-items:center;gap:8px;padding:8px 10px;border-bottom:1px solid var(--b)}
+.edh .tab{margin-right:auto;background:var(--p2);padding:6px 12px;border-radius:7px;font-size:13px}
+.run{background:#1E9E5C;border:0;border-radius:8px;padding:7px 14px;font-weight:600;color:#fff}
+.ib{width:34px;height:34px;border-radius:8px;border:1px solid var(--b);background:var(--p2)}
+.eb{display:flex;height:230px}
+#gut{width:44px;padding:14px 8px;text-align:right;color:#4D5576;font:13px/1.7 'JetBrains Mono',monospace;overflow:hidden;border-right:1px solid var(--b);flex:none}
+.cw{position:relative;flex:1}
+.cw pre,.cw textarea{position:absolute;inset:0;margin:0;padding:14px;font:13px/1.7 'JetBrains Mono',monospace;white-space:pre;tab-size:4}
+.cw pre{overflow:hidden;pointer-events:none}
+.cw textarea{background:none;border:0;color:transparent;caret-color:#fff;resize:none;outline:0;overflow:auto}
+.con{border-top:1px solid var(--b);background:#0E1226}
+.conh{display:flex;justify-content:space-between;padding:9px 14px;color:#B9C0D8;font-size:13px}
+.conh button{background:none;border:0;color:var(--m)}
+#out{padding:4px 14px 14px;color:#9AA3C2;min-height:70px;max-height:140px;overflow:auto;white-space:pre-wrap}
+.help{display:flex;align-items:center;gap:16px;border:1px solid var(--b);border-radius:12px;padding:14px 18px;background:var(--p)}
+.help .ic{width:46px;height:46px;border-radius:50%;background:#3A2C18;display:grid;place-items:center;font-size:20px;flex:none}
+.help p{margin:0;color:var(--m);font-size:12.5px;flex:1}.help b{display:block;color:var(--t);font-size:14px}
+.right{display:flex;flex-direction:column;gap:14px}
+.ai h3{display:flex;justify-content:space-between;align-items:center}.ai h3 em{font:500 12px Inter;color:var(--g);font-style:normal}
+#chat{display:flex;flex-direction:column;gap:10px;max-height:300px;overflow-y:auto}
+.m{background:var(--p2);border:1px solid var(--b);border-radius:12px;padding:12px 14px;font-size:13px;overflow-wrap:anywhere}
+.m.me{align-self:flex-end;background:#2A2362}.m.err{color:#FF7A7A}
+.m p{margin:0 0 8px}.m p:last-child{margin:0}
+.m code{font-family:'JetBrains Mono',monospace;background:#0B0F20;padding:1px 5px;border-radius:4px}
+.m pre{background:#0B0F20;padding:10px 12px;border-radius:8px;overflow-x:auto;margin:8px 0}.m pre code{padding:0}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
+.chips button{background:#1B1F45;border:1px solid #2B3170;color:#CBD0F0;border-radius:8px;padding:6px 12px;font-size:13px}
+.ask{display:flex;border:1px solid var(--b);border-radius:10px;background:var(--p2)}
+.ask input{flex:1;background:none;border:0;color:var(--t);padding:12px 14px;font:inherit;min-width:0}
+.ask button{background:none;border:0;color:var(--v);padding:0 14px;font-size:18px}
+.step{display:flex;align-items:center;gap:12px;padding:8px 0;font-size:13px}
+.step .d{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font-size:12px;background:#1E2543;flex:none}
+.step.ok .d{background:#1E8F57}.step.go .d{background:#FF9C88;color:#2A1210}
+.step span{margin-left:auto;font-size:12px;color:var(--m)}.step.ok span{color:var(--g)}
+.ach{display:flex;gap:12px;align-items:center;padding:6px 0}
+.ach .d{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;font-size:22px;background:#17352A}.ach.f .d{background:#4A2217}
+.ach small{color:var(--m)}
+@media(max-width:1180px){.app{grid-template-columns:minmax(0,1fr)}.side .quote,.side .card{display:none}.nav{flex-direction:row;overflow-x:auto}.logo{min-width:0}.search{display:none}}
+@media(max-width:900px){.lesson{grid-template-columns:1fr}.hero h1{font-size:30px}.badge{display:none!important}.lvl{position:static!important;margin-top:14px;display:inline-block}}
+[hidden]{display:none!important}
+.search{position:relative;align-items:center;gap:10px}.search input{flex:1;background:none;border:0;color:var(--t);font:inherit;outline:0;min-width:0}
+.dd{position:absolute;top:calc(100% + 8px);left:0;right:0;background:var(--p2);border:1px solid var(--b);border-radius:12px;padding:6px;z-index:20;box-shadow:0 12px 30px #0008}
+.dd button{display:flex;justify-content:space-between;width:100%;background:none;border:0;text-align:left;padding:9px 12px;border-radius:8px}.dd button:hover{background:var(--b)}.dd small{color:var(--m)}
+.bw{position:relative}#nl{left:auto;right:0;width:300px}.ni{padding:9px 12px;border-radius:8px;font-size:13px;color:var(--m)}.ni.new{background:#2A2362;color:var(--t)}
+.nb{position:absolute;top:-6px;right:-6px;background:var(--s);color:#2A1210;border-radius:999px;font-size:11px;padding:0 6px}
+.ib{position:relative}.ub{display:flex;align-items:center;gap:10px;background:none;border:0}
+button.back{background:none;border:0;padding:0}
+button.step{width:100%;background:none;border:0;text-align:left}button.step:disabled{opacity:.6;cursor:default}
+.ach.lock{opacity:.45}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px;margin-top:14px}
+.cc{background:var(--p2);border:1px solid var(--b);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:10px}.cc p{margin:0;color:#B9C0D8}
+.cc .bd{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;font-weight:800}
+.tag{background:#2A2362;border-radius:999px;padding:2px 10px;font-size:12px}
+.mu{color:var(--m)}.wrap{flex-wrap:wrap}.err{color:#FF7A7A}.chk{font-size:12.5px;color:var(--m)}
+.row select,.form select,.form input:not([type=range]){background:var(--p2);border:1px solid var(--b);color:var(--t);border-radius:8px;padding:9px 12px;font:inherit}
+.form{display:flex;flex-direction:column;gap:16px;max-width:420px}.form label{display:flex;flex-direction:column;gap:6px;color:var(--m)}
+.cw pre,.cw textarea,#gut{font-size:var(--fs,13px)}
+body.light{--bg:#F1F4FB;--p:#fff;--p2:#EEF1FA;--b:#DCE1F0;--t:#161B33;--m:#5E668A}
+body.light .m.me{background:#DDD8FF}body.light .nav a,body.light .cc p,body.light #tc p{color:#3A4163}body.light .nav a.on{color:#161B33}
+.auth{position:fixed;inset:0;z-index:50;background:var(--bg);display:grid;place-items:center;padding:20px}
+.auth form{width:100%;max-width:380px;display:flex;flex-direction:column;gap:14px}.auth label{display:flex;flex-direction:column;gap:6px;color:var(--m)}
+.auth input{background:var(--p2);border:1px solid var(--b);color:var(--t);border-radius:8px;padding:11px 12px;font:inherit}
+.atabs{display:flex;gap:6px;border-bottom:1px solid var(--b)}.atabs button{background:none;border:0;padding:9px 16px;color:var(--m);border-bottom:2px solid transparent}.atabs button.on{color:var(--t);border-bottom-color:var(--v)}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="logo"><svg width="38" height="30" viewBox="0 0 38 30" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6 2 15l7 9M29 6l7 9-7 9M22 3l-6 24"/></svg><div><b>CodeLearn</b><small>Aprende · Practica · Construye</small></div></div>
+  <div class="search"><input id="sin" placeholder="Buscar cursos, temas o ejercicios…" autocomplete="off" aria-label="Buscar"><span>Ctrl + K</span><div id="sr" class="dd" hidden></div></div>
+  <div class="user"><div class="bw"><button class="ib" id="bell" aria-label="Notificaciones">🔔<b id="nb" class="nb" hidden>0</b></button><div id="nl" class="dd" hidden></div></div><button class="ub" id="ubtn" style="color:inherit"><div class="av" id="av">EV</div><span id="uname">Elías Vásquez</span></button></div>
+</header>
+
+<div class="app">
+  <aside class="side">
+    <nav class="nav" id="nav">
+      <a href="#" data-v="inicio" class="on">🏠 Inicio</a><a href="#" data-v="cursos">📘 Cursos</a><a href="#" data-v="ejercicios">✅ Ejercicios</a><a href="#" data-v="retos">🧩 Retos</a><a href="#" data-v="proyectos">💼 Proyectos</a><a href="#" data-v="perfil">👤 Perfil</a><a href="#" data-v="config">⚙️ Configuración</a><a href="#" data-v="logout" id="lo">🚪 Cerrar sesión</a>
+    </nav>
+    <div class="quote">La mejor forma de predecir el futuro es crearlo con código.</div>
+    <div class="card"><h3>Tu progreso general</h3><div class="row"><div class="ring" id="ring"><span id="ringv">0%</span></div><div style="flex:1"><b class="lvtxt"></b><br><small class="xptxt" style="color:var(--m)"></small><div class="bar" style="margin-top:8px"><i id="xpb" style="width:0"></i></div></div></div></div>
+    <div class="card"><h3 style="margin-top:6px">IA siempre contigo</h3><p style="color:var(--m);font-size:13px;margin:0 0 14px">Explicaciones, correcciones y consejos personalizados.</p><button class="btn v" id="goai" style="width:100%">Asistente IA →</button></div>
+  </aside>
+
+  <main class="main">
+    <section class="hero hm">
+      <span class="pill">Curso en progreso</span>
+      <h1 id="ctitle">Python desde Cero</h1>
+      <p>Aprende paso a paso, desde los conceptos básicos hasta la creación de programas, con la ayuda de la IA.</p>
+      <div class="row"><button class="btn s" id="cont">▶ Continuar curso</button><button class="btn" id="all" style="background:#00000033;border-color:#ffffff44">Ver todos los cursos</button></div>
+      <div id="courses" hidden></div>
+      <div class="badge" id="cbadge">Py</div>
+      <div class="lvl"><b class="lvtxt"></b><br><small class="xptxt"></small></div>
+    </section>
+
+    <section class="card lesson hm" id="lesson">
+      <div>
+        <button class="back" id="back">← Volver al curso</button><h2 id="ltitle"></h2><p class="sub" id="lsub"></p>
+        <div class="tabs"><button class="on">Teoría</button><button>Ejemplos</button><button>Ejercicio</button></div>
+        <div id="tc"></div>
+      </div>
+      <div class="ed">
+        <div class="edh"><span class="tab" id="fname">main.py ✕</span><button class="run" id="run">▶ Ejecutar</button><button class="run" id="vbtn" style="background:var(--v)">✓ Verificar</button><button class="ib" id="rst" title="Restablecer código" aria-label="Restablecer código">↻</button><button class="ib" id="del" title="Borrar código" aria-label="Borrar código">🗑</button></div>
+        <div class="eb"><div id="gut"></div><div class="cw"><pre id="hl"></pre><textarea id="code" spellcheck="false" aria-label="Editor de código"></textarea></div></div>
+        <div class="con"><div class="conh"><span id="conlbl">Salida de la consola</span><button id="cc">Limpiar</button></div><pre id="out">La salida de tu código aparecerá aquí…</pre></div>
+      </div>
+    </section>
+
+    <div class="help hm"><div class="ic">💡</div><p><b>¿Necesitas ayuda?</b>Pregunta a la IA sobre este tema. Te explicará con ejemplos, corregirá tu código o te dará pistas para resolver el ejercicio.</p><button class="btn v" id="hint" style="padding:11px 20px;border-radius:999px">✦ Preguntar a la IA</button></div>
+  <div id="view" hidden></div>
+  </main>
+
+  <aside class="right">
+    <div class="card ai" id="aibox">
+      <h3>✦ Asistente IA <em>● En línea</em></h3>
+      <div id="chat"><div class="m"><p id="hi"></p><p>Estoy aquí para ayudarte con tus dudas de programación. Puedes preguntarme sobre este tema, pedir ejemplos, corregir tu código o explicarme algo más sencillo.</p></div></div>
+      <div class="chips"><button data-q="Explica este código paso a paso.">Explica este código</button><button data-q="Dame otro ejemplo sencillo sobre variables.">Dame otro ejemplo</button><button data-q="ex">Ayúdame con el ejercicio</button><button data-q="">Tengo una duda…</button></div>
+      <div class="ask"><input id="q" placeholder="Escribe tu pregunta…" aria-label="Escribe tu pregunta"><button id="sq" aria-label="Enviar">➤</button></div>
+    </div>
+    <div class="card"><h3>Tu progreso en el curso</h3>
+      <div class="row" style="margin-bottom:10px"><div class="bar" style="flex:1"><i id="cpb" style="width:0"></i></div><b id="cp">0%</b></div><div id="steps"></div>
+    </div>
+    <div class="card"><h3>Logros</h3><div id="ach"></div></div>
+  </aside>
+</div>
+
+<div id="auth" class="auth" hidden>
+  <form id="af" class="card">
+    <h1 style="margin:0;font-size:26px">CodeLearn</h1>
+    <div class="atabs" id="atabs"><button type="button" class="on" data-m="login">Entrar</button><button type="button" data-m="reg">Crear cuenta</button></div>
+    <label id="an" hidden>Nombre<input id="aname" autocomplete="name"></label>
+    <label>Correo<input id="aem" type="email" required autocomplete="email"></label>
+    <label>Contraseña<input id="apw" type="password" required minlength="8" autocomplete="current-password"></label>
+    <p id="aerr" class="err" style="margin:0"></p>
+    <button class="btn v" id="asub">Entrar</button>
+    <button type="button" class="btn" id="aguest">Continuar sin cuenta</button>
+  </form>
+</div>
+<script>
+const MODEL="openai/gpt-oss-120b";
+const $=s=>document.querySelector(s), F="`".repeat(3);
+const E=s=>s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+const T=(n,d,v)=>`<h3>¿Qué es ${n}?</h3><p>${d}</p><h3>Variables</h3><p>${v}</p>`;
+const CAP="En este ejemplo guardamos un texto en la variable nombre y un número en la variable edad. Luego mostramos el resultado en pantalla.";
+const TASK0="Crea una variable con tu nombre y otra con tu ciudad, y muestra un saludo que use las dos.";
+const C={
+Python:{ab:"Py",file:"main.py",th:T("Python","Python es un lenguaje de alto nivel, fácil de leer y muy versátil. Se usa en desarrollo web, análisis de datos, inteligencia artificial y mucho más.","Las variables te permiten almacenar datos. En Python no necesitas declarar el tipo de variable, solo asignas un valor."),
+ code:'nombre = "CodeLearner"\nedad = 17\nprint(nombre, "tiene", edad, "años")',ex2:'ciudad = "Lima"\nprint("Hola desde", ciudad)\nprint(2 + 3)'},
+JavaScript:{ab:"JS",file:"main.js",th:T("JavaScript","JavaScript es el lenguaje de la web: hace que las páginas cobren vida y también funciona en servidores con Node.js.","Se declaran con <code>let</code> (cambia) o <code>const</code> (no cambia). El tipo se decide solo según el valor."),
+ code:'const nombre = "CodeLearner";\nlet edad = 17;\nconsole.log(nombre, "tiene", edad, "años");',ex2:'const ciudad = "Lima";\nconsole.log("Hola desde", ciudad);\nconsole.log(2 + 3);'},
+Java:{ab:"Jv",file:"Main.java",th:T("Java","Java es un lenguaje robusto y muy usado en empresas, apps Android y sistemas grandes. Todo vive dentro de clases.","En Java debes declarar el tipo de cada variable: <code>String</code> para texto, <code>int</code> para enteros."),
+ code:'public class Main {\n    public static void main(String[] args) {\n        String nombre = "CodeLearner";\n        int edad = 17;\n        System.out.println(nombre + " tiene " + edad + " años");\n    }\n}',ex2:'public class Main {\n    public static void main(String[] args) {\n        String ciudad = "Lima";\n        System.out.println("Hola desde " + ciudad);\n        System.out.println(2 + 3);\n    }\n}'},
+"C#":{ab:"C#",file:"Program.cs",th:T("C#","C# es el lenguaje de Microsoft para apps de escritorio, web con .NET y videojuegos con Unity.","Puedes declarar el tipo (<code>string</code>, <code>int</code>) o dejar que se deduzca con <code>var</code>."),
+ code:'string nombre = "CodeLearner";\nint edad = 17;\nConsole.WriteLine($"{nombre} tiene {edad} años");',ex2:'string ciudad = "Lima";\nConsole.WriteLine($"Hola desde {ciudad}");\nConsole.WriteLine(2 + 3);'}
+};
+const K="codelearn_v1";
+const DEF=()=>({name:"Estudiante",lang:"Python",xp:0,done:{},ach:{},ret:{},proy:{},pp:{},notes:[],streak:0,last:"",theme:"dark",fs:13,model:MODEL});
+let S=DEF();
+try{Object.assign(S,JSON.parse(localStorage.getItem(K)||"{}"))}catch(e){}
+if(!["openai/gpt-oss-120b","openai/gpt-oss-20b"].includes(S.model))S.model=MODEL;
+const API=location.protocol.startsWith("http")?"":"http://localhost:3000";
+let TOK="",tm;try{TOK=localStorage.getItem("cl_token")||""}catch(e){}
+async function api(path,method,body){
+  const r=await fetch(API+path,{method:method||"GET",headers:{"Content-Type":"application/json",...(TOK?{Authorization:"Bearer "+TOK}:{})},body:body?JSON.stringify(body):undefined});
+  const j=await r.json().catch(()=>({}));if(!r.ok)throw Object.assign(new Error(j.error||"Error "+r.status),{status:r.status});return j}
+const push=()=>{if(!TOK)return;clearTimeout(tm);tm=setTimeout(()=>api("/api/progress","PUT",S).catch(()=>{}),800)};
+const save=()=>{try{localStorage.setItem(K,JSON.stringify(S))}catch(e){}push()};
+let gerr="",L="Python",hist=[],busy=false,py=null,TASK=TASK0,li=0,kind="lec",ctx={},gen={},exs=[];
+
+function hl(c){return E(c).replace(/("[^"\n]*"|'[^'\n]*'|#.*|\/\/.*)|(\b\d+\b)|(\b[A-Za-z_]\w*)(?=\()|\b(def|return|if|elif|else|for|while|in|import|from|class|function|const|let|var|public|static|void|int|String|string|new|using)\b/g,(m,a,n,f,k)=>a?`<i class="${/^(#|\/\/)/.test(a)?'c':'s'}">${a}</i>`:n?`<i class="n">${n}</i>`:f?`<i class="f">${f}</i>`:`<i class="k">${k}</i>`)}
+function draw(){const v=$("#code").value;$("#hl").innerHTML=hl(v)+"\n ";const n=Math.max(5,v.split("\n").length);$("#gut").innerHTML=Array.from({length:n},(_,i)=>i+1).join("<br>")}
+$("#code").addEventListener("input",draw);
+$("#code").addEventListener("scroll",e=>{const t=e.target;$("#hl").scrollTop=t.scrollTop;$("#hl").scrollLeft=t.scrollLeft;$("#gut").scrollTop=t.scrollTop});
+$("#code").addEventListener("keydown",e=>{if(e.key==="Tab"){e.preventDefault();const t=e.target,s=t.selectionStart;t.setRangeText("    ",s,t.selectionEnd,"end");draw()}});
+
+const LES=["Introducción","Tipos de datos","Operadores","Estructuras de control","Funciones"],SUB=["Variables y salida por pantalla","Texto, números y booleanos","Aritmética y comparaciones","if, else y bucles","Crea y usa funciones"];
+const ACH=[{id:"p",ic:"✔",t:"Primer programa",d:"Ejecuta tu primer código",xp:50},{id:"l",ic:"🎓",t:"Primera lección",d:"Completa una lección",xp:100},{id:"r",ic:"🔥",t:"Racha de estudio",d:"Estudia 3 días seguidos",xp:100},{id:"c",ic:"🏆",t:"Retador",d:"Supera un reto",xp:150}];
+const RET=[{id:0,t:"FizzBuzz",xp:150,d:"Imprime los números del 1 al 30. Si es múltiplo de 3 escribe Fizz, de 5 Buzz, y de ambos FizzBuzz."},{id:1,t:"Invierte el texto",xp:150,d:"Dado un texto guardado en una variable, muéstralo al revés."},{id:2,t:"Suma de pares",xp:200,d:"Calcula e imprime la suma de los números pares del 1 al 100."},{id:3,t:"Número primo",xp:250,d:"Escribe un programa que diga si un número guardado en una variable es primo."}];
+const PRO=[{t:"Calculadora de consola",d:"Suma, resta, multiplica y divide dos números."},{t:"Adivina el número",d:"El programa elige un número secreto y da pistas hasta que lo adivines."},{t:"Lista de tareas",d:"Agrega, muestra y elimina tareas de una lista."}];
+const TEMAS=["Variables","Condicionales","Bucles","Listas","Funciones"];
+const doneOf=l=>S.done[l]||[],pct=l=>Math.round(doneOf(l).length/5*100),lvl=()=>Math.floor(S.xp/500)+1;
+const achHTML=()=>ACH.map(a=>`<div class="ach ${S.ach[a.id]?'':'lock'}"><div class="d">${a.ic}</div><div><b>${a.t}</b><br><small>${S.ach[a.id]?(a.id=="r"?S.streak+" días":"Completado"):a.d}</small></div></div>`).join("");
+
+function note(t){S.notes.unshift({t,r:0});S.notes=S.notes.slice(0,15);save();refresh()}
+function xp(n,why){const a=lvl();S.xp+=n;note(`+${n} XP · ${why}`);if(lvl()>a)note(`🎉 ¡Subiste al nivel ${lvl()}!`)}
+function unlock(id){if(S.ach[id])return;S.ach[id]=1;const a=ACH.find(x=>x.id==id);xp(a.xp,"Logro: "+a.t)}
+
+function refresh(){
+  const p=pct(L),n=S.xp%500;
+  document.querySelectorAll(".lvtxt").forEach(e=>e.textContent="Nivel "+lvl());
+  document.querySelectorAll(".xptxt").forEach(e=>e.textContent=S.xp.toLocaleString("en")+" XP");
+  $("#ringv").textContent=Math.round(n/5)+"%";$("#ring").style.background=`conic-gradient(var(--s) 0 ${n/5}%,#262D4D 0)`;$("#xpb").style.width=n/5+"%";
+  $("#cp").textContent=p+"%";$("#cpb").style.width=p+"%";
+  $("#steps").innerHTML=LES.map((t,i)=>{const d=doneOf(L).includes(i),ok=i==0||d||doneOf(L).includes(i-1),cur=i==li&&ok&&!d;
+    return `<button class="step ${d?'ok':cur?'go':''}" data-i="${i}" ${ok?'':'disabled'}><div class="d">${d?'✓':ok?'▶':'🔒'}</div>${i+1}. ${t}<span>${d?'Completado':cur?'En progreso':ok?'Disponible':'Bloqueado'}</span></button>`}).join("");
+  $("#steps").querySelectorAll("button").forEach(b=>b.onclick=()=>{openLesson(+b.dataset.i);go("inicio")});
+  $("#ach").innerHTML=achHTML();
+  const un=S.notes.filter(x=>!x.r).length;$("#nb").textContent=un;$("#nb").hidden=!un;
+  $("#nl").innerHTML=S.notes.map(x=>`<div class="ni ${x.r?'':'new'}">${E(x.t)}</div>`).join("")||"<div class='ni'>Sin notificaciones</div>";
+  $("#uname").textContent=S.name;$("#av").textContent=S.name.split(" ").map(w=>w[0]).slice(0,2).join("").toUpperCase();
+  $("#lo").textContent=S.email?"🚪 Cerrar sesión":"🔑 Iniciar sesión";$("#hi").textContent="¡Hola, "+S.name.split(" ")[0]+"! 👋"}
+
+const les=()=>li==0?{th:C[L].th+`<div class="ex"><small>Ejemplo:</small><pre>${hl(C[L].code)}</pre></div><p>${CAP}</p>`,ex2:C[L].ex2,code:C[L].code}:gen[L+li];
+function tab(i){
+  document.querySelectorAll(".tabs button").forEach((b,j)=>b.classList.toggle("on",j===i));const g=les();
+  if(!g){$("#tc").innerHTML=gerr?`<p class="err">No se pudo generar la lección: ${E(gerr)}</p><button class="btn v" id="retry">Reintentar</button>`:"<p>Preparando la lección con IA…</p>";if(gerr)$("#retry").onclick=()=>{gerr="";tab(0);genLesson()};return}
+  $("#tc").innerHTML=i==0?g.th:i==1?`<h3>Otro ejemplo</h3><div class="ex"><pre>${hl(g.ex2||g.code)}</pre></div><p>Cópialo al editor y cambia los valores.</p>`:`<h3>Tu turno</h3><p>${E(TASK)}</p><p>Escribe tu solución y pulsa <b>Ejecutar</b>. Cuando funcione, verifícala.</p><button class="btn v" id="ver">✓ Verificar con IA</button><p id="vr"></p>`;
+  if(i==2)$("#ver").onclick=verify;else{$("#tc").insertAdjacentHTML("beforeend",'<button class="btn s" id="gx" style="margin-top:12px">Ir al ejercicio →</button>');$("#gx").onclick=()=>tab(2)}}
+document.querySelectorAll(".tabs button").forEach((b,i)=>b.onclick=()=>tab(i));
+
+function openLesson(i){li=i;gerr="";kind="lec";ctx={};const g=i?gen[L+i]:C[L];TASK=i?(g?g.task:"Practica lo aprendido."):TASK0;
+  $("#ltitle").textContent=`${i+1}. ${LES[i]}`;$("#lsub").textContent=SUB[i];$("#code").value=g?g.code:"";draw();tab(0);refresh();if(i&&!g)genLesson()}
+async function genLesson(){
+  const k=L+li;
+  try{
+    const r=await groq([{role:"system",content:"Responde EXACTAMENTE con estas 4 secciones y nada más, cada marcador en su propia línea:\n###TEORIA\n(explicación para principiantes, máx 120 palabras, texto plano)\n###CODIGO\n(ejemplo corto, solo código, sin ```)\n###EJEMPLO2\n(otro ejemplo corto, solo código)\n###EJERCICIO\n(ejercicio corto para el estudiante)"},{role:"user",content:`Curso de ${L} para principiantes, en español. Lección: ${LES[li]} (${SUB[li]}).`}]);
+    const p=r.split(/###\w+\s*\n/).map(x=>x.replace(/```\w*/g,"").trim());if(!p[4])throw new Error("Respuesta incompleta, vuelve a abrir la lección.");
+    gen[k]={th:md(p[1])+`<div class="ex"><small>Ejemplo:</small><pre>${hl(p[2])}</pre></div>`,code:p[2],ex2:p[3],task:p[4]};
+  }catch(e){if(L+li==k){gerr=e.message;tab(0)}return}
+  if(L+li!=k||kind!="lec")return;TASK=gen[k].task;$("#code").value=gen[k].code;draw();tab(0)}
+
+async function verify(){
+  const o=$("#vr");$("#nx")?.remove();o.textContent="Revisando…";
+  try{
+    const r=await groq([{role:"system",content:'Eres un profesor de programación. Evalúa si el código del estudiante cumple el ejercicio. Responde SOLO JSON: {"ok":true,"msg":"retroalimentación breve en español"} con ok true o false.'},{role:"user",content:`Lenguaje: ${L}\nEjercicio: ${TASK}\nCódigo:\n${$("#code").value}`}]);
+    const ok=/"ok"\s*:\s*true/i.test(r),m=(r.match(/"msg"\s*:\s*"([^"]*)/)||[])[1]||r;
+    o.textContent=(ok?"✅ ":"❌ ")+m;if(ok)reward();nextBtn(ok)
+  }catch(e){o.textContent=e.message}}
+function nextBtn(ok){
+  if(kind!="lec")return;const b=document.createElement("button");b.id="nx";b.className="btn "+(ok?"s":"");b.style.cssText="margin-top:10px;display:block";
+  if(ok&&li>=4){b.textContent="🎉 Curso completado";b.disabled=1}
+  else{b.textContent=ok?"Siguiente lección →":"Continuar de todos modos →";b.onclick=()=>{if(!doneOf(L).includes(li)){S.done[L]=doneOf(L).concat(li);save()}li<4?openLesson(li+1):refresh()}}
+  $("#vr").after(b)}
+function reward(){
+  if(kind=="lec"){if(doneOf(L).includes(li))return;S.done[L]=doneOf(L).concat(li);xp(100,"Lección completada: "+LES[li]);unlock("l");if(li<4)$("#vr").textContent+=" ¡Siguiente lección desbloqueada!"}
+  else if(kind=="ret"){if(S.ret[ctx.id])return;S.ret[ctx.id]=1;xp(ctx.xp,"Reto superado: "+ctx.t);unlock("c")}
+  else{if(ctx.paid)return;ctx.paid=1;xp(50,"Ejercicio resuelto")}
+  save();refresh()}
+function startTask(k,c,t){kind=k;ctx=c;TASK=t;$("#ltitle").textContent=k=="ret"?"Reto: "+c.t:"Ejercicio de práctica";$("#lsub").textContent=L;$("#code").value="";draw();go("inicio");tab(2);refresh();$("#lesson").scrollIntoView()}
+
+function setLang(l){L=l;S.lang=l;hist=[];save();$("#ctitle").textContent=l+" desde Cero";$("#cbadge").textContent=C[l].ab;$("#fname").textContent=C[l].file+" ✕";
+  $("#out").textContent="La salida de tu código aparecerá aquí…";$("#conlbl").textContent="Salida de la consola";
+  const d=doneOf(l);openLesson(Math.min(d.length?Math.max(...d)+1:0,4))}
+
+const V={},act={};
+V.cursos=()=>`<div class="card"><h3>Cursos</h3><p class="mu">Elige un lenguaje y continúa donde lo dejaste.</p><div class="grid">${Object.keys(C).map(l=>`<div class="cc"><div class="bd" style="background:#2A2362">${C[l].ab}</div><b>${l} desde Cero</b><div class="bar"><i style="width:${pct(l)}%"></i></div><small class="mu">${doneOf(l).length}/5 lecciones · ${pct(l)}%</small><button class="btn v" data-a="curso" data-p="${l}">${pct(l)?"Continuar":"Empezar"}</button></div>`).join("")}</div></div>`;
+act.curso=l=>{setLang(l);go("inicio")};
+V.ejercicios=()=>`<div class="card"><h3>Ejercicios de práctica · ${L}</h3><p class="mu">La IA crea ejercicios a tu medida.</p><div class="row wrap"><select id="tema" aria-label="Tema">${TEMAS.map(t=>`<option>${t}</option>`).join("")}</select><select id="dif" aria-label="Dificultad"><option>Fácil</option><option>Medio</option><option>Difícil</option></select><button class="btn v" data-a="genex">✦ Generar ejercicio</button></div><div id="exl" class="grid">${exs.map((e,i)=>`<div class="cc"><b>${e.t} · ${e.d}</b><p>${E(e.task)}</p><button class="btn" data-a="solve" data-p="${i}">Resolver en el editor</button></div>`).join("")}</div></div>`;
+act.genex=async(_,b)=>{const t=$("#tema").value,d=$("#dif").value;b.disabled=1;b.textContent="Generando…";
+  try{const r=await groq([{role:"system",content:"Crea UN ejercicio de programación corto. Responde SOLO el enunciado en español, una o dos frases, sin solución."},{role:"user",content:`${L}, tema ${t}, dificultad ${d}, para principiantes.`}]);exs.unshift({t,d,task:r.trim()});go("ejercicios")}
+  catch(e){b.disabled=0;b.textContent="✦ Generar ejercicio";$("#exl").insertAdjacentHTML("beforebegin",`<p class="err">${E(e.message)}</p>`)}};
+act.solve=i=>startTask("ej",{},exs[i].task);
+V.retos=()=>`<div class="card"><h3>Retos · ${L}</h3><p class="mu">Resuélvelos en el editor y verifícalos con la IA para ganar XP.</p><div class="grid">${RET.map(r=>`<div class="cc"><div><b>${r.t}</b> <span class="tag">${r.xp} XP</span></div><p>${r.d}</p><button class="btn ${S.ret[r.id]?"":"v"}" data-a="reto" data-p="${r.id}">${S.ret[r.id]?"✓ Superado · repetir":"Resolver"}</button></div>`).join("")}</div></div>`;
+act.reto=i=>{const r=RET[i];startTask("ret",r,r.d)};
+V.proyectos=()=>`<div class="card"><h3>Proyectos · ${L}</h3><p class="mu">Construye programas reales con la guía de la IA.</p><div class="grid">${PRO.map((p,i)=>`<div class="cc"><b>${p.t}</b><p>${p.d}</p><button class="btn v" data-a="proy" data-p="${i}">Construir con la IA</button><label class="chk"><input type="checkbox" data-a="pdone" data-p="${i}" ${S.proy[i]?"checked":""}> Marcar como terminado (+300 XP)</label></div>`).join("")}</div></div>`;
+act.proy=i=>{go("inicio");$("#aibox").scrollIntoView();ask(`Guíame paso a paso para construir el proyecto "${PRO[i].t}" en ${L}: ${PRO[i].d} Empieza solo con el primer paso.`)};
+act.pdone=(i,b)=>{S.proy[i]=b.checked?1:0;if(b.checked&&!S.pp[i]){S.pp[i]=1;xp(300,"Proyecto terminado: "+PRO[i].t)}save();refresh()};
+V.perfil=()=>{const n=Object.values(S.done).reduce((a,x)=>a+x.length,0);return `<div class="card"><div class="row"><div class="av" style="width:64px;height:64px;font-size:22px">${$("#av").textContent}</div><div><h3 style="margin:0">${E(S.name)}</h3><small class="mu">Nivel ${lvl()} · ${S.xp} XP · Racha de ${S.streak} día(s)</small></div></div></div>
+<div class="grid" style="margin-top:0"><div class="cc"><b style="font-size:24px">${n}</b><small class="mu">Lecciones completadas</small></div><div class="cc"><b style="font-size:24px">${Object.keys(S.ret).length}</b><small class="mu">Retos superados</small></div><div class="cc"><b style="font-size:24px">${Object.values(S.pp).filter(Boolean).length}</b><small class="mu">Proyectos terminados</small></div><div class="cc"><b style="font-size:24px">${Object.keys(S.ach).length}/${ACH.length}</b><small class="mu">Logros</small></div></div>
+<div class="card"><h3>Logros</h3>${achHTML()}</div>`};
+V.config=()=>`<div class="card"><h3>Configuración</h3><div class="form"><p class="mu" style="margin:0">${S.email?"Cuenta: "+E(S.email):"Modo invitado (sin cuenta)"}</p><button class="btn v" data-a="logout">${S.email?"Cerrar sesión":"Iniciar sesión"}</button><label>Tu nombre<input value="${E(S.name)}" data-a="cname"></label><label>Tema<select data-a="ctheme"><option value="dark" ${S.theme=="dark"?"selected":""}>Oscuro</option><option value="light" ${S.theme=="light"?"selected":""}>Claro</option></select></label><label>Modelo de IA<select data-a="cmodel">${["openai/gpt-oss-120b","openai/gpt-oss-20b"].map(m=>`<option ${S.model==m?"selected":""}>${m}</option>`).join("")}</select></label><label>Tamaño de letra del editor<input type="range" min="11" max="20" value="${S.fs}" data-a="cfs"></label><button class="btn" data-a="creset" style="color:#FF7A7A">Reiniciar todo el progreso</button></div></div>`;
+act.cname=(_,b)=>{S.name=b.value.trim()||"Estudiante";save();refresh()};
+act.ctheme=(_,b)=>{S.theme=b.value;document.body.classList.toggle("light",S.theme=="light");save()};
+act.cmodel=(_,b)=>{S.model=b.value;save()};
+act.cfs=(_,b)=>{S.fs=+b.value;document.documentElement.style.setProperty("--fs",S.fs+"px");save()};
+act.logout=async()=>{if(TOK)await api("/api/progress","PUT",S).catch(()=>{});try{localStorage.removeItem("cl_token");if(S.email)localStorage.removeItem(K)}catch(e){}location.reload()};
+act.creset=()=>{if(confirm("¿Borrar todo tu progreso?")){try{localStorage.removeItem(K)}catch(e){}location.reload()}};
+$("#view").onclick=e=>{const b=e.target.closest("button[data-a]");if(b)act[b.dataset.a](b.dataset.p,b)};
+$("#view").onchange=e=>{const b=e.target.closest("[data-a]");if(b&&b.tagName!="BUTTON")act[b.dataset.a](b.dataset.p,b)};
+
+function go(v){
+  document.querySelectorAll("#nav a").forEach(a=>a.classList.toggle("on",a.dataset.v==v));
+  const h=v=="inicio";document.querySelectorAll(".hm").forEach(e=>e.hidden=!h);$("#view").hidden=h;if(!h)$("#view").innerHTML=V[v]();scrollTo(0,0)}
+document.querySelectorAll("#nav a").forEach(a=>a.onclick=e=>{e.preventDefault();if(a.dataset.v=="logout"){if(!S.email||confirm("¿Cerrar sesión?"))act.logout();return}go(a.dataset.v)});
+$("#all").onclick=()=>go("cursos");
+$("#cont").onclick=()=>{setLang(L);$("#lesson").scrollIntoView({behavior:"smooth"})};
+$("#back").onclick=()=>openLesson(li);
+$("#ubtn").onclick=()=>go("perfil");
+$("#rst").onclick=()=>{const g=les();$("#code").value=g?g.code:"";draw()};
+$("#vbtn").onclick=()=>{tab(2);verify()};
+$("#del").onclick=()=>{$("#code").value="";draw()};
+$("#cc").onclick=()=>{$("#out").textContent=""};
+
+function items(){return [...Object.keys(C).map(l=>({t:l+" desde Cero",s:"Curso",f:()=>{setLang(l);go("inicio")}})),...LES.map((t,i)=>({t:`${i+1}. ${t}`,s:"Lección",f:()=>{openLesson(i);go("inicio")}})),...RET.map(r=>({t:r.t,s:"Reto",f:()=>act.reto(r.id)})),...PRO.map((p,i)=>({t:p.t,s:"Proyecto",f:()=>act.proy(i)})),...["cursos","ejercicios","retos","proyectos","perfil","config"].map(v=>({t:v[0].toUpperCase()+v.slice(1),s:"Sección",f:()=>go(v)}))]}
+$("#sin").oninput=e=>{const q=e.target.value.toLowerCase().trim(),r=$("#sr");if(!q){r.hidden=1;return}
+  const m=items().filter(x=>x.t.toLowerCase().includes(q)||x.s.toLowerCase().includes(q)).slice(0,7);
+  r.innerHTML=m.map(x=>`<button>${E(x.t)} <small>${x.s}</small></button>`).join("")||"<div class='ni'>Sin resultados</div>";r.hidden=0;
+  r.querySelectorAll("button").forEach((b,i)=>b.onclick=()=>{m[i].f();r.hidden=1;e.target.value=""})};
+addEventListener("keydown",e=>{if(e.ctrlKey&&e.key=="k"){e.preventDefault();$("#sin").focus()}});
+$("#bell").onclick=e=>{e.stopPropagation();const n=$("#nl");n.hidden=!n.hidden;if(!n.hidden){S.notes.forEach(x=>x.r=1);save();$("#nb").hidden=1}};
+document.addEventListener("click",e=>{if(!e.target.closest("#nl"))$("#nl").hidden=1;if(!e.target.closest(".search"))$("#sr").hidden=1});
+
+function boot(){
+  const d=new Date().toDateString(),y=new Date(Date.now()-864e5).toDateString();
+  if(S.last!=d){S.streak=S.last==y?S.streak+1:1;S.last=d}
+  if(!S.notes.length)note("¡Bienvenido a CodeLearn! Empieza tu primera lección.");
+  document.body.classList.toggle("light",S.theme=="light");document.documentElement.style.setProperty("--fs",S.fs+"px");
+  $(".quote").textContent=["La mejor forma de predecir el futuro es crearlo con código.","Todo experto fue alguna vez principiante.","Un error es una pista, no un fracaso.","Pequeños pasos cada día suman grandes programas."][new Date().getDate()%4];
+  setLang(S.lang in C?S.lang:"Python");if(S.streak>=3)unlock("r");save()}
+
+async function groq(m){
+  const j=await api("/api/chat","POST",{model:S.model,messages:m});
+  const c=j.choices?.[0]?.message?.content;if(!c)throw new Error("La IA no devolvió respuesta. Intenta de nuevo.");return c}
+
+async function loadPy(){if(py)return;await new Promise((ok,no)=>{const s=document.createElement("script");s.src="https://cdn.jsdelivr.net/pyodide/v0.26.4/full/pyodide.js";s.onload=ok;s.onerror=()=>no(new Error("No se pudo cargar Python. Revisa tu conexión."));document.head.appendChild(s)});py=await loadPyodide()}
+$("#run").onclick=async()=>{
+  const o=$("#out"),code=$("#code").value;let buf="";o.textContent="Ejecutando…";$("#conlbl").textContent="Salida de la consola";
+  try{
+    if(L=="Python"){await loadPy();py.setStdout({batched:s=>buf+=s+"\n"});py.setStderr({batched:s=>buf+=s+"\n"});await py.runPythonAsync(code)}
+    else if(L=="JavaScript"){const lg=console.log;console.log=(...a)=>buf+=a.join(" ")+"\n";try{new Function(code)()}finally{console.log=lg}}
+    else{buf=await groq([{role:"system",content:"Eres un compilador. Responde SOLO con la salida exacta del programa o el error de compilación. Sin explicaciones ni formato."},{role:"user",content:`Lenguaje: ${L}\n${code}`}]);$("#conlbl").textContent="Salida de la consola (simulada por IA)"}
+  }catch(e){buf+=String(e.message||e)}
+  o.textContent=buf||"(sin salida)";unlock("p");save()};
+
+function md(t){return t.split(F).map((p,i)=>{if(i%2){const n=p.indexOf("\n");return `<pre><code>${E((n>-1?p.slice(n+1):p).replace(/\n$/,""))}</code></pre>`}
+  return E(p).split(/\n{2,}/).map(x=>x.trim()?`<p>${x.replace(/`([^`]+)`/g,"<code>$1</code>").replace(/\*\*([^*]+)\*\*/g,"<b>$1</b>").replace(/\n/g,"<br>")}</p>`:"").join("")}).join("")}
+function say(r,t){const d=document.createElement("div");d.className="m "+r;d.innerHTML=r=="me"?`<p>${E(t)}</p>`:md(t);$("#chat").appendChild(d);$("#chat").scrollTop=1e9;return d}
+async function ask(q){
+  if(busy||!q.trim())return;busy=true;hist.push({role:"user",content:q});say("me",q);const w=say("ai","Pensando…");
+  try{
+    const sys=`Eres el asistente de un curso de ${L} para principiantes, en español. Lección actual: ${LES[li]}. Sé breve (máximo 120 palabras), usa ejemplos pequeños en bloques de código y da pistas antes que soluciones completas. Código actual del estudiante:\n${F}\n${$("#code").value}\n${F}`;
+    const a=await groq([{role:"system",content:sys},...hist.slice(-12)]);hist.push({role:"assistant",content:a});w.innerHTML=md(a);
+  }catch(e){hist.pop();w.classList.add("err");w.textContent=e.message}
+  busy=false;$("#chat").scrollTop=1e9}
+const send=()=>{const v=$("#q").value;$("#q").value="";ask(v)};
+$("#sq").onclick=send;$("#q").addEventListener("keydown",e=>{if(e.key==="Enter")send()});
+document.querySelectorAll(".chips button").forEach(b=>b.onclick=()=>{const q=b.dataset.q;if(!q)$("#q").focus();else ask(q=="ex"?"Ayúdame con el ejercicio: "+TASK:q)});
+$("#goai").onclick=()=>{$("#aibox").scrollIntoView({behavior:"smooth"});$("#q").focus()};
+$("#hint").onclick=()=>{$("#aibox").scrollIntoView({behavior:"smooth"});ask("Ayúdame con el ejercicio: "+TASK+" Dame una pista, sin la solución completa.")};
+function applySession(j){
+  TOK=j.token||TOK;try{localStorage.setItem("cl_token",TOK)}catch(e){}
+  S=Object.assign(DEF(),{name:j.user.name},j.progress||{});S.email=j.user.email;gen={};exs=[];$("#auth").hidden=true;boot()}
+async function start(){
+  if(TOK){try{applySession(await api("/api/me"));return}catch(e){
+    if(e.status==401){TOK="";try{localStorage.removeItem("cl_token")}catch(_){}}
+    else $("#aerr").textContent="No se pudo conectar con el servidor. ¿Está corriendo (npm start)?"}}
+  $("#auth").hidden=false}
+let am="login";
+document.querySelectorAll("#atabs button").forEach(b=>b.onclick=()=>{am=b.dataset.m;document.querySelectorAll("#atabs button").forEach(x=>x.classList.toggle("on",x==b));$("#an").hidden=am!="reg";$("#asub").textContent=am=="reg"?"Crear cuenta":"Entrar";$("#apw").autocomplete=am=="reg"?"new-password":"current-password";$("#aerr").textContent=""});
+$("#af").onsubmit=async e=>{e.preventDefault();const b=$("#asub");b.disabled=true;$("#aerr").textContent="";
+  try{applySession(await api("/api/"+(am=="reg"?"register":"login"),"POST",{name:$("#aname").value,email:$("#aem").value,password:$("#apw").value}))}
+  catch(x){$("#aerr").textContent=x.status?x.message:"No se pudo conectar con el servidor. ¿Está corriendo (npm start)?"}
+  b.disabled=false};
+$("#aguest").onclick=()=>{$("#auth").hidden=true;boot()};
+start();
+</script>
+</body>
+</html>
